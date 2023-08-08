@@ -3,8 +3,8 @@ const express = require('express');
 const expressLayouts = require("express-ejs-layouts");
 const app = express();
 const port = 8000 || process.env.Port;
-// const authRouth = require('./routes/auth');
-const Db = require("./config/mongoose");
+const homePage = require('./routes/index');
+// const Db = require("./config/mongoose");
 
 
 
@@ -16,14 +16,17 @@ app.use(express.urlencoded({ extended: false }));
 //static file 
 app.use(express.static('public'));
 
-//templating engine
 
+// Templating Engine
+app.use(expressLayouts);
+app.set('layout', './layout/main');
 app.set('view engine', 'ejs');
-// app.use(methodOverride('_method'))
+
+
 // route of the app
-// app.use("/api/user", authRouth);
-app.get('/',(req,res)=>{
-    res.render('index')
+app.use('/',homePage);
+app.get('/', (req, res) => {
+  
 })
 
 
