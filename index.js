@@ -1,39 +1,30 @@
-require('dotenv').config();
-const express = require('express');
+require("dotenv").config();
+const express = require("express");
 const expressLayouts = require("express-ejs-layouts");
 const app = express();
 const port = 8000 || process.env.Port;
-const homePage = require('./routes/index');
+const homePage = require("./routes/index");
 // const Db = require("./config/mongoose");
 
-
-
-
-//middelware dependency 
+//middelware dependency
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
-//static file 
-app.use(express.static('public'));
-
+//static file
+app.use(express.static("public"));
 
 // Templating Engine
 app.use(expressLayouts);
-app.set('layout', './layout/main');
-app.set('view engine', 'ejs');
-
+app.set("layout", "./layout/main");
+app.set("view engine", "ejs");
 
 // route of the app
-app.use('/',homePage);
-app.get('/', (req, res) => {
-  
-})
-
-
+app.use("/", homePage);
+app.get("/", (req, res) => { });
 
 app.listen(port, (error) => {
     if (error) {
         console.log(error);
     }
     console.log(`app is running port ${port}`);
-})
+});
