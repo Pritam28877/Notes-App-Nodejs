@@ -20,7 +20,7 @@ app.set("view engine", "ejs");
 
 // route of the app
 app.use("/", homePage);
-app.get("/", (req, res) => { });
+app.get("*", (req, res) => { res.status(404).render('404'); });
 
 app.listen(port, (error) => {
     if (error) {
