@@ -1,12 +1,14 @@
 const express = require('express');
 const app = express();
-
+const authRouth = require('./routes/auth')
+const Db = require("./config/mongoose")
 
 
 
 
 // route of the app
-app.get('/', (req, res) => { res.send("home") });
+app.use("/api/user", authRouth);
+
 
 
 app.listen(5000, (e) => {
