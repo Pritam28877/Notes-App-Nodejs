@@ -1,9 +1,9 @@
 require('dotenv').config();
 const express = require('express');
-const expressLayout = require("express-ejs-layouts");
+const expressLayouts = require("express-ejs-layouts");
 const app = express();
 const port = 8000 || process.env.Port;
-const authRouth = require('./routes/auth');
+// const authRouth = require('./routes/auth');
 const Db = require("./config/mongoose");
 
 
@@ -11,18 +11,20 @@ const Db = require("./config/mongoose");
 
 //middelware dependency 
 app.use(express.json());
-app.use(express.urlencoded({ extended: true }));
+app.use(express.urlencoded({ extended: false }));
 
 //static file 
 app.use(express.static('public'));
 
 //templating engine
-app.use(expressLayout);
-app.set('layout' , './layouts/main');
-app.set('view engine','ejs');
 
+app.set('view engine', 'ejs');
+// app.use(methodOverride('_method'))
 // route of the app
-app.use("/api/user", authRouth);
+// app.use("/api/user", authRouth);
+app.get('/',(req,res)=>{
+    res.render('index')
+})
 
 
 
