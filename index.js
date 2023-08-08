@@ -20,11 +20,13 @@ app.set("view engine", "ejs");
 
 // route of the app
 app.use("/", homePage);
-app.get("*", (req, res) => { res.status(404).render('404'); });
+app.get("*", (req, res) => {
+  res.status(404).render("404");
+});
 
 app.listen(port, (error) => {
-    if (error) {
-        console.log(error);
-    }
-    console.log(`app is running port ${port}`);
+  if (error) {
+    console.log(error);
+  }
+  console.log(`app is running port ${port}`);
 });
