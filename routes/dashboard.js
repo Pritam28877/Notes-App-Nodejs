@@ -1,5 +1,5 @@
 const express = require("express");
 const route = express.Router();
-const { dashboardController } = require("../controller/dashboardController");
-route.get("/dash");
+const { homepage } = require("../controller/dashboardController");
+route.get("/dashboard",homepage);
 module.exports = route;
