@@ -5,6 +5,6 @@ module.exports.homepage = async (req, res) => {
   };
   res.render("dashboard/index", {
     locals,
-    layout :"../views/layout/"
+    layout: "../views/layout/dashboard",
   });
 };

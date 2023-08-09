@@ -4,6 +4,7 @@ const expressLayouts = require("express-ejs-layouts");
 const app = express();
 const port = 8000 || process.env.Port;
 const homePage = require("./routes/index");
+const dashBoard = require('./routes/dashboard')
 // const Db = require("./config/mongoose");
 
 //middelware dependency
@@ -20,6 +21,7 @@ app.set("view engine", "ejs");
 
 // route of the app
 app.use("/", homePage);
+app.use('/',dashBoard)
 app.get("*", (req, res) => {
   res.status(404).render("404");
 });
