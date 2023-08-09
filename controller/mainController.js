@@ -3,7 +3,9 @@ module.exports.HomepageRender = (req, res) => {
     title: "Node js Notes",
     description: " Free Node js notes apps ",
   };
-  res.render("index", locals);
+  res.render("index", {locals ,
+    layout:'../views/layout/front-page'
+  });
 };
 module.exports.aboutPage = (req, res) => {
   const locals = {
