@@ -25,7 +25,7 @@ app.use('/',dashBoard)
 app.get("*", (req, res) => {
   res.status(404).render("404");
 });
-
+// the app port output
 app.listen(port, (error) => {
   if (error) {
     console.log(error);
