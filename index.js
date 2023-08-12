@@ -5,7 +5,7 @@ const app = express();
 const port = 8000 || process.env.Port;
 const homePage = require("./routes/index");
 const dashBoard = require('./routes/dashboard')
-// const Db = require("./config/mongoose");
+const Db = require("./config/mongoose");
 
 //middelware dependency
 app.use(express.json());
