@@ -17,7 +17,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
-    mongoUrl: process.env.MONGODB_URI
+    mongoUrl: `mongodb://127.0.0.1/note`
   }),
 }));
 //middelware dependency
