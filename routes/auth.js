@@ -1,15 +1,15 @@
 const express = require("express");
-const route = express.Router();
+const router = express.Router();
 const passport = require("passport");
-const User = require("../models/User")
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
+const User = require("../models/User");
 
 passport.use(
   new GoogleStrategy(
     {
-      clientID: process.env.Client_ID,
-      clientSecret: process.env.Client_secret,
-      callbackURL: "http://localhost:8000/google/callback",
+      clientID: process.env.GOOGLE_CLIENT_ID,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+      callbackURL:"http://localhost:8000/google/callback",
     },
     async function (accessToken, refreshToken, profile, done) {
       const newUser = {
@@ -23,7 +23,7 @@ passport.use(
       try {
         let user = await User.findOne({ googleId: profile.id });
         if (user) {
-          done(null, user);
+          return done(null, user);
         } else {
           user = await User.create(newUser);
           done(null, user);
@@ -34,28 +34,29 @@ passport.use(
     }
   )
 );
+
 // Google Login Route
-route.get(
+router.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["email", "profile"] })
 );
+
 // Retrieve user data
-route.get(
+router.get(
   "/google/callback",
   passport.authenticate("google", {
     failureRedirect: "/login-failure",
     successRedirect: "/dashboard",
   })
 );
-//error page some thing went worng
-route.get("/login-failure", (req, res) => {
-  res.send("something went wrong");
+
+// Route if something goes wrong
+router.get('/login-failure', (req, res) => {
+  res.send('Something went wrong...');
 });
 
-
-
 // Destroy user session
-route.get('/logout', (req, res) => {
+router.get('/logout', (req, res) => {
   req.session.destroy(error => {
     if(error) {
       console.log(error);
@@ -65,6 +66,8 @@ route.get('/logout', (req, res) => {
     }
   })
 });
+
+
 // Presist user data after successful authentication
 passport.serializeUser(function (user, done) {
   done(null, user.id);
@@ -77,4 +80,7 @@ passport.deserializeUser(function (id, done) {
   });
 });
 
-module.exports = route;
+
+
+
+module.exports = router;

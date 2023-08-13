@@ -13,12 +13,14 @@ const MongoStore = require("connect-mongo");
 
 
 app.use(session({
-  secret:"keydog ok",
+  secret: 'keyboard cat',
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
     mongoUrl: `mongodb://127.0.0.1/note`
   }),
+  //cookie: { maxAge: new Date ( Date.now() + (3600000) ) } 
+  // Date.now() - 30 * 24 * 60 * 60 * 1000
 }));
 //middelware dependency
 app.use(passport.initialize());
