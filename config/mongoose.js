@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 
-const DB = `mongodb://127.0.0.1/node`;
+const DB = `mongodb://127.0.0.1/note`;
 
 mongoose
   .connect(DB)

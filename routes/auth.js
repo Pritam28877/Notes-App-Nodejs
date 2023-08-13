@@ -17,11 +17,12 @@ passport.use(
     }
   )
 );
+// Google Login Route
 route.get(
   "/auth/google",
   passport.authenticate("google", { scope: ["profile"] })
 );
-
+// Retrieve user data
 route.get(
   "/google/callback",
   passport.authenticate("google", {
@@ -29,7 +30,7 @@ route.get(
     successRedirect: "/dashboard",
   })
 );
-
+//error page some thing went worng
 route.get("/login-failure", (req, res) => {
   res.send("something went wrong");
 });
