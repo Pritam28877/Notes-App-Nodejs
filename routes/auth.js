@@ -55,7 +55,7 @@ route.get("/login-failure", (req, res) => {
 
 
 // Destroy user session
-router.get('/logout', (req, res) => {
+route.get('/logout', (req, res) => {
   req.session.destroy(error => {
     if(error) {
       console.log(error);
