@@ -1,6 +1,7 @@
 const express = require("express");
 const route = express.Router();
 const passport = require("passport");
+const User = require("../models/User")
 const GoogleStrategy = require("passport-google-oauth20").Strategy;
 
 passport.use(
@@ -10,17 +11,33 @@ passport.use(
       clientSecret: process.env.Client_secret,
       callbackURL: "http://localhost:8000/google/callback",
     },
-    function (accessToken, refreshToken, profile, cb) {
-      User.findOrCreate({ googleId: profile.id }, function (err, user) {
-        return cb(err, user);
-      });
+    async function (accessToken, refreshToken, profile, done) {
+      const newUser = {
+        googleId: profile.id,
+        displayName: profile.displayName,
+        firstName: profile.name.givenName,
+        lastName: profile.name.familyName,
+        profileImage: profile.photos[0].value,
+      };
+
+      try {
+        let user = await User.findOne({ googleId: profile.id });
+        if (user) {
+          done(null, user);
+        } else {
+          user = await User.create(newUser);
+          done(null, user);
+        }
+      } catch (error) {
+        console.log(error);
+      }
     }
   )
 );
 // Google Login Route
 route.get(
   "/auth/google",
-  passport.authenticate("google", { scope: ["profile"] })
+  passport.authenticate("google", { scope: ["email", "profile"] })
 );
 // Retrieve user data
 route.get(
