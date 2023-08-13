@@ -34,4 +34,18 @@ route.get(
 route.get("/login-failure", (req, res) => {
   res.send("something went wrong");
 });
+
+
+// Presist user data after successful authentication
+passport.serializeUser(function (user, done) {
+  done(null, user.id);
+});
+
+// Retrieve user data from session.
+passport.deserializeUser(function (id, done) {
+  User.findById(id, function (err, user) {
+    done(err, user);
+  });
+});
+
 module.exports = route;

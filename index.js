@@ -11,6 +11,15 @@ const session = require("express-session");
 const passport = require("passport");
 const MongoStore = require("connect-mongo");
 
+
+app.use(session({
+  secret:"keydog ok",
+  resave: false,
+  saveUninitialized: true,
+  store: MongoStore.create({
+    mongoUrl: process.env.MONGODB_URI
+  }),
+}));
 //middelware dependency
 app.use(passport.initialize());
 //app.use(passport.session());
