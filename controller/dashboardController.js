@@ -111,3 +111,15 @@ exports.dashboardAddNoteSubmit = async (req, res) => {
     console.log(error);
   }
 };
+/**
+ * GET /
+ * Search
+ */
+exports.dashboardSearch = async (req, res) => {
+  try {
+    res.render("dashboard/search", {
+      searchResults: "",
+      layout: "../views/layout/dashboard",
+    });
+  } catch (error) {}
+};
