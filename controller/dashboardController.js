@@ -1,6 +1,8 @@
-const Note = require('../models/Notes');
+const Note = require("../models/Notes");
 
 module.exports.homepage = async (req, res) => {
+
+  
   const perPage = 12;
   const page = req.query.page || 1;
 
@@ -11,7 +13,7 @@ module.exports.homepage = async (req, res) => {
 
   try {
     const totalNotesCount = await Note.countDocuments({});
-    const totalPages = Math.ceil(totalNotesCount / perPage);
+    const pages = Math.ceil(totalNotesCount / perPage);
 
     const notes = await Note.aggregate([
       { $sort: { updatedAt: -1 } },
@@ -30,8 +32,8 @@ module.exports.homepage = async (req, res) => {
       notes,
       locals,
       layout: "../views/layout/dashboard",
-      currentPage: page,
-      totalPages,
+      current: page,
+      pages,
     });
   } catch (error) {
     console.log(error);
