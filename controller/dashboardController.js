@@ -1,13 +1,13 @@
-const Note = require('../models/Notes');
-const { ObjectId } = require('mongodb');
+const Note = require("../models/Notes");
+const { ObjectId } = require("mongodb");
 
 module.exports.homepage = async (req, res) => {
   const perPage = 12;
   const page = req.query.page || 1;
 
   const locals = {
-    title: 'Dashboard',
-    description: 'Free Node js notes apps',
+    title: "Dashboard",
+    description: "Free Node js notes apps",
   };
 
   try {
@@ -20,25 +20,25 @@ module.exports.homepage = async (req, res) => {
       { $match: { user: new ObjectId(user) } }, // Use the ObjectId instance
       {
         $project: {
-          title: { $substr: ['$title', 0, 30] },
-          body: { $substr: ['$body', 0, 100] },
+          title: { $substr: ["$title", 0, 30] },
+          body: { $substr: ["$body", 0, 100] },
         },
       },
     ])
       .skip(perPage * (page - 1))
       .limit(perPage);
 
-    res.render('dashboard/index', {
+    res.render("dashboard/index", {
       userName: req.user.firstName,
       notes,
       locals,
-      layout: '../views/layout/dashboard',
+      layout: "../views/layout/dashboard",
       current: page,
       pages,
     });
   } catch (error) {
     console.log(error);
-    res.status(500).send('An error occurred');
+    res.status(500).send("An error occurred");
   }
 };
 
@@ -51,13 +51,21 @@ module.exports.dashboardViewNotes = async (req, res) => {
     res.render("dashboard/view-note", {
       noteID: req.params.id,
       note,
-      layout: '../views/layout/dashboard',
+      layout: "../views/layout/dashboard",
     });
   } else {
     res.send("Something went wrong.");
   }
-}
+};
 
 module.exports.dashboardupdateNotes = async (req, res) => {
-
-}
+  try {
+    await Note.findOneAndUpdate(
+      { _id: req.params.id },
+      { title: req.body.title, body: req.body.body, updatedAt: Date.now() }
+    ).where({ user: req.user.id });
+    res.redirect("/dashboard");
+  } catch (error) {
+    console.log(error);
+  }
+};
