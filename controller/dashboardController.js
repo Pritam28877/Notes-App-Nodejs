@@ -2,7 +2,6 @@ const Note = require('../models/Notes');
 const { ObjectId } = require('mongodb');
 
 module.exports.homepage = async (req, res) => {
-
   const perPage = 12;
   const page = req.query.page || 1;
 
@@ -12,13 +11,13 @@ module.exports.homepage = async (req, res) => {
   };
 
   try {
-    const totalNotesCount = await Note.countDocuments({user: req.user.id});  
-    const pages  = Math.ceil(totalNotesCount / perPage);
+    const totalNotesCount = await Note.countDocuments({ user: req.user.id });
+    const pages = Math.ceil(totalNotesCount / perPage);
 
     const user = req.user.id;
     const notes = await Note.aggregate([
       { $sort: { updatedAt: -1 } },
-      { $match: {user: new ObjectId(user)} }, // Use the ObjectId instance
+      { $match: { user: new ObjectId(user) } }, // Use the ObjectId instance
       {
         $project: {
           title: { $substr: ['$title', 0, 30] },
@@ -34,14 +33,15 @@ module.exports.homepage = async (req, res) => {
       notes,
       locals,
       layout: '../views/layout/dashboard',
-      current : page,
-      pages ,
+      current: page,
+      pages,
     });
   } catch (error) {
     console.log(error);
     res.status(500).send('An error occurred');
   }
 };
+
 module.exports.dashboardViewNotes = async (req, res) => {
   const note = await Note.findById({ _id: req.params.id })
     .where({ user: req.user.id })
