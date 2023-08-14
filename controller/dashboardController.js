@@ -5,9 +5,17 @@ module.exports.homepage = async (req, res) => {
     title: "Dashboard",
     description: " Free Node js notes apps ",
   };
-  res.render("dashboard/index", {
-    userName: req.user.firstName,
-    locals,
-    layout: "../views/layout/dashboard",
-  });
+
+  try {
+    const notes = await Note.find({});
+    res.render("dashboard/index", {
+      userName: req.user.firstName,
+      notes,
+      locals,
+      layout: "../views/layout/dashboard",
+    });
+  } catch (error) {
+    
+  }
+ 
 };
