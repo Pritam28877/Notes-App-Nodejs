@@ -41,7 +41,10 @@ module.exports.homepage = async (req, res) => {
     res.status(500).send("An error occurred");
   }
 };
-
+/**
+ * GET /
+ * View Specific Note
+ */
 module.exports.dashboardViewNotes = async (req, res) => {
   const note = await Note.findById({ _id: req.params.id })
     .where({ user: req.user.id })
@@ -57,7 +60,10 @@ module.exports.dashboardViewNotes = async (req, res) => {
     res.send("Something went wrong.");
   }
 };
-
+/**
+ * PUT /
+ * Update Specific Note
+ */
 module.exports.dashboardupdateNotes = async (req, res) => {
   try {
     await Note.findOneAndUpdate(
