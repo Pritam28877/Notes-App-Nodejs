@@ -87,3 +87,13 @@ exports.dashboardDeleteNote = async (req, res) => {
     console.log(error);
   }
 };
+
+/**
+ * GET /
+ * Add Notes
+ */
+exports.dashboardAddNote = async (req, res) => {
+  res.render("dashboard/add", {
+    layout: "../views/layout/dashboard",
+  });
+};
