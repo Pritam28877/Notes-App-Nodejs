@@ -51,7 +51,7 @@ module.exports.dashboardViewNotes = async (req, res) => {
     res.render("dashboard/view-note", {
       noteID: req.params.id,
       note,
-      layout: "../views/layouts/dashboard",
+      layout: '../views/layout/dashboard',
     });
   } else {
     res.send("Something went wrong.");
