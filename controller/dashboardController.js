@@ -73,6 +73,7 @@ module.exports.dashboardupdateNotes = async (req, res) => {
     res.redirect("/dashboard");
   } catch (error) {
     console.log(error);
+    res.status(500).send("An error occurred");
   }
 };
 /**
@@ -85,6 +86,7 @@ exports.dashboardDeleteNote = async (req, res) => {
     res.redirect("/dashboard");
   } catch (error) {
     console.log(error);
+    res.status(500).send("An error occurred");
   }
 };
 
@@ -109,6 +111,7 @@ exports.dashboardAddNoteSubmit = async (req, res) => {
     res.redirect("/dashboard");
   } catch (error) {
     console.log(error);
+    res.status(500).send("An error occurred");
   }
 };
 /**
@@ -121,5 +124,34 @@ exports.dashboardSearch = async (req, res) => {
       searchResults: "",
       layout: "../views/layout/dashboard",
     });
-  } catch (error) {}
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error occurred");
+  }
+};
+
+/**
+ * POST /
+ * Search For Notes
+ */
+exports.dashboardSearchSubmit = async (req, res) => {
+  try {
+    let searchTerm = req.body.searchTerm;
+    const searchNoSpecialChars = searchTerm.replace(/[^a-zA-Z0-9 ]/g, "");
+
+    const searchResults = await Note.find({
+      $or: [
+        { title: { $regex: new RegExp(searchNoSpecialChars, "i") } },
+        { body: { $regex: new RegExp(searchNoSpecialChars, "i") } },
+      ],
+    }).where({ user: req.user.id });
+
+    res.render("dashboard/search", {
+      searchResults,
+      layout: "../views/layout/dashboard",
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("An error occurred");
+  }
 };
