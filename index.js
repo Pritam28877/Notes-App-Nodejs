@@ -18,7 +18,7 @@ app.use(session({
   resave: false,
   saveUninitialized: true,
   store: MongoStore.create({
-    mongoUrl: `mongodb://127.0.0.1/note`
+    mongoUrl: `mongodb+srv://Notes-user:FGE9nemmL1Ylmf07@notes-app-ejs.d5kwvgq.mongodb.net/?retryWrites=true&w=majority`
   }),
   //cookie: { maxAge: new Date ( Date.now() + (3600000) ) } 
   // Date.now() - 30 * 24 * 60 * 60 * 1000
